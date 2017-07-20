@@ -23,7 +23,7 @@ parser.add_argument('--momentum', type=float, default=0.5,
                     help='Learning rate')
 parser.add_argument('--batch_size', type=int, default=10,
                     help='Batch size')
-parser.add_argument('--log_interval', action='store_true', default=100,
+parser.add_argument('--log_interval', action='store_true', default=10,
                     help='How often to log training information')
 
 args = parser.parse_args()

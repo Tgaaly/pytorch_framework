@@ -26,7 +26,7 @@ class FileListDataset(data.Dataset):
 
 		# Currently targets are just the sum of the non-zero pixels.
 		targetum = np.zeros((1,), dtype=np.float32)
-		targetum[0] = np.sum(datum)
+		targetum[0] = np.mean(datum)
 
 		# Data is by default converted to DoubleTensor. 
 		# Here we convert to FloatTensor to save memory.
