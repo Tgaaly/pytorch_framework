@@ -8,18 +8,24 @@ from torch.autograd import Variable
 import torch
 import numpy as np
 import torch.nn.functional as F
+import argparse
 
 # Data loading.
 data_dir = '/Users/tarek/Data/KITTI_training_notransform'
 file_list_dataset = FileListDataset(data_dir)
 train_loader = DataLoader(file_list_dataset, batch_size=4, num_workers=4)
 
-
-num_epochs=10
-log_interval=5
+# Training settings.
+parser = argparse.ArgumentParser(description='PyTorch Simple Framework')
+parser.add_argument('--cuda', action='store_true', default=False,
+                    help='use CUDA')
+parser.add_argument('--num_epochs', type=int, default=10, metavar='N',
+                    help='Number of epochs to train')
+parser.add_argument('--log_interval', action='store_true', default=5,
+                    help='How often to log training information')
 
 # set to False for working on macbook.
-args.cuda=False
+args = parser.parse_args()
 
 # Instantiate the model (transfer to GPU is cuda support is enabled).
 model = Net()
@@ -61,7 +67,7 @@ def train(epoch):
         optimizer.step()
 
         # Log training performance.
-        if batch_idx % log_interval == 0:
+        if batch_idx % args.log_interval == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.data[0]))
@@ -85,8 +91,8 @@ def test():
     #     test_loss, correct, len(test_loader.dataset),
     #     100. * correct / len(test_loader.dataset)))
 
-
-for epoch in range(1, num_epochs + 1):
-    train(epoch)
-    test()
+if __name__ == '__main__':
+    for epoch in range(1, args.num_epochs + 1):
+        train(epoch)
+        test()
 
