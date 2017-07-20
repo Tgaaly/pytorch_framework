@@ -11,30 +11,37 @@ from torch.utils.data import DataLoader
 from model import Net
 from data import FileListDataset
 
-# Data loading.
-data_dir = '/Users/tarek/Data/KITTI_training_notransform'
-file_list_dataset = FileListDataset(data_dir)
-train_loader = DataLoader(file_list_dataset, batch_size=4, num_workers=4)
-
 # Training settings.
 parser = argparse.ArgumentParser(description='PyTorch Simple Framework')
 parser.add_argument('--cuda', action='store_true', default=False,
                     help='use CUDA')
 parser.add_argument('--num_epochs', type=int, default=10, metavar='N',
                     help='Number of epochs to train')
-parser.add_argument('--log_interval', action='store_true', default=5,
+parser.add_argument('--lr', type=float, default=0.001,
+                    help='Learning rate')
+parser.add_argument('--momentum', type=float, default=0.5,
+                    help='Learning rate')
+parser.add_argument('--batch_size', type=int, default=10,
+                    help='Batch size')
+parser.add_argument('--log_interval', action='store_true', default=100,
                     help='How often to log training information')
 
-# set to False for working on macbook.
 args = parser.parse_args()
 
-# Instantiate the model (transfer to GPU is cuda support is enabled).
+# Data loading.
+data_dir = '/Users/tarek/Data/KITTI_training_notransform'
+file_list_dataset = FileListDataset(data_dir)
+train_loader = DataLoader(file_list_dataset, 
+    batch_size=args.batch_size, shuffle=True, num_workers=4)
+
+
+# Instantiate the model (transfer to GPU if cuda support is enabled).
 model = Net()
 if args.cuda:
      model.cuda()
 
 # Optimizer
-optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.09)
+optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
 # Training function.
 def train(epoch):
@@ -55,7 +62,7 @@ def train(epoch):
         output = model(data)
 
         # Compute loss.
-        loss_fn = torch.nn.MSELoss(size_average=True)
+        loss_fn = torch.nn.L1Loss()#size_average=True)
         loss = loss_fn(output, target)
 
         # Backprop.
