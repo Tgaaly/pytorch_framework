@@ -38,18 +38,15 @@ optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.09)
 # Training function.
 def train(epoch):
     model.train()
-    for (batch_idx, batch_data) in enumerate(train_loader):
+    for batch_idx, (batch_data, batch_target) in enumerate(train_loader):
         
         if args.cuda:
             data, target = data.cuda(), target.cuda()
         
-        # Create pytorch Variable for data batch.
+        # Create pytorch Variable for data and target batch.
         data = Variable(batch_data)
+        target = Variable(batch_target)
  
- 		# Create pytorch Variable for target batch.
-        batch_target = np.random.randint(11, size=(4,1))
-        target = Variable(torch.FloatTensor(batch_target))
-
         # Zero-fy the gradients.
         optimizer.zero_grad()
 

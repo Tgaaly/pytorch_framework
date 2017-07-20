@@ -24,10 +24,14 @@ class FileListDataset(data.Dataset):
 		datum = datum[1]
 		datum.resize((1, datum.shape[0], datum.shape[1]))
 
+		# Currently targets are just random
+		targetum = np.random.rand((1))
+		
 		# Data is by default converted to DoubleTensor. 
 		# Here we convert to FloatTensor to save memory.
 		datum = torch.FloatTensor(datum)
-		return datum
+		targetum = torch.FloatTensor(targetum)
+		return datum, targetum
 	
 	def __len__(self):
 		return len(self.file_list)
