@@ -4,8 +4,6 @@ import torch.utils.data as data
 import glob
 import torch
 
-# data_dir = '/Users/tarek/Data/KITTI_training_notransform'
-
 def get_file_list(data_dir):
 	print 'getting all files: ', os.path.join(data_dir, '*.npy')
 	files = glob.glob(os.path.join(data_dir, '*.npy'))
@@ -24,11 +22,10 @@ class FileListDataset(data.Dataset):
 		f = os.path.join(self.data_dir,filepath)
 		datum = np.load(f)
 		datum = datum[1]
-		# print datum.shape
 		datum.resize((1, datum.shape[0], datum.shape[1]))
-		# print datum.shape
-		# datum = torch.Tensor(datum)
-		# print datum.shape
+
+		# Data is by default converted to DoubleTensor. 
+		# Here we convert to FloatTensor to save memory.
 		datum = torch.FloatTensor(datum)
 		return datum
 	

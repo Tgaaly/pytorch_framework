@@ -1,7 +1,9 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
+debug=False
 
+# DNN definition.
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -14,15 +16,12 @@ class Net(nn.Module):
         self.fc2 = nn.Linear(50, 1)
 
     def forward(self, x):
-        # print x.size()
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
-        # print x.size()
         x = F.relu(F.max_pool2d(self.conv2(x), 2))
-        # print x.size()
         x = F.relu(F.max_pool2d(self.conv3(x), 2))
-        # print x.size()
-        x = F.relu(F.max_pool2d(self.conv4_drop(self.conv4(x)), 2))
-        # print x.size()
+        x = F.relu(F.max_pool2d(self.conv4_drop(self.conv4(x)), 2))        
+        if debug:
+            print x.size()
         x = x.view(-1, 80*430)
         x = F.relu(self.fc1(x))
         x = F.dropout(x, training=self.training)
