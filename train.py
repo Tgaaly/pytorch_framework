@@ -1,14 +1,15 @@
-from data import FileListDataset
-from torch.utils.data import DataLoader
 import sys
-import pdb
-import torch.optim as optim
-from model import Net
-from torch.autograd import Variable
-import torch
 import numpy as np
-import torch.nn.functional as F
 import argparse
+
+import torch
+import torch.optim as optim
+import torch.nn.functional as F
+from torch.autograd import Variable
+from torch.utils.data import DataLoader
+
+from model import Net
+from data import FileListDataset
 
 # Data loading.
 data_dir = '/Users/tarek/Data/KITTI_training_notransform'

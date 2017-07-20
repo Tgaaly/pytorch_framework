@@ -1,8 +1,8 @@
-import os
+import os, glob
 import numpy as np
-import torch.utils.data as data
-import glob
+
 import torch
+import torch.utils.data as data
 
 def get_file_list(data_dir):
 	print 'getting all files: ', os.path.join(data_dir, '*.npy')

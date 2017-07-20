@@ -1,7 +1,8 @@
-from torch.utils.data import DataLoader
 import sys
-import pdb
 sys.path.append("../")
+
+from torch.utils.data import DataLoader
+
 from data import FileListDataset
 
 data_dir = '/Users/tarek/Data/KITTI_training_notransform'
