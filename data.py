@@ -24,9 +24,14 @@ class FileListDataset(data.Dataset):
 		datum = datum[1]
 		datum.resize((1, datum.shape[0], datum.shape[1]))
 
+		# If I want DNN to count number of nonzero pixels.
+		nonzero_indices = datum > 0.0
+		datum[nonzero_indices] = 1.0
+
 		# Currently targets are just the sum of the non-zero pixels.
 		targetum = np.zeros((1,), dtype=np.float32)
-		targetum[0] = np.mean(datum)
+		targetum[0] = np.sum(datum) # If I want DNN to count number of nonzero pixels.
+		# targetum[0] = np.mean(datum) #If I want the DNN to compute mean range.
 
 		# Data is by default converted to DoubleTensor. 
 		# Here we convert to FloatTensor to save memory.
